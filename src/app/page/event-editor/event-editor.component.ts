@@ -12,7 +12,7 @@ import { EventService } from 'src/app/service/event.service';
 })
 export class EventEditorComponent implements OnInit , OnDestroy{
   event: Event = new Event();
-  subscription: Subscription = new Subscription();
+  subscriptions: Subscription = new Subscription();
 
   constructor(
     private eventService: EventService,
@@ -22,17 +22,19 @@ export class EventEditorComponent implements OnInit , OnDestroy{
 
 
   ngOnDestroy(): void {
-   this.subscription.unsubscribe();
+   this.subscriptions.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.subscription =  this.activedRoute.params.pipe(switchMap((param) => this.eventService.get(param['id'])))
+     let subscription =  this.activedRoute.params.pipe(switchMap((param) => this.eventService.get(param['id'])))
     .subscribe(event  => this.event = event);
+    this.subscriptions.add(subscription);
   }
 
   onUpdate(formControl: NgForm){
     console.log(formControl);
-    this.eventService.update({id: this.event.id,name: formControl.value.name, date: formControl.value.date,time:  formControl.value.time, location: formControl.value.location})
+    let subscription = this.eventService.update({id: this.event.id,name: formControl.value.name, date: formControl.value.date,time:  formControl.value.time, location: formControl.value.location})
     .subscribe(() => this.router.navigate(['/']));
+    this.subscriptions.add(subscription);
   }
 }
