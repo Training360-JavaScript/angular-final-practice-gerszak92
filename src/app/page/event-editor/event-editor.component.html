@@ -1,0 +1,43 @@
+<div *ngIf= "event.id" class="row">
+  <div class="col-6 offset-3">
+    <form #formControl="ngForm" (ngSubmit)="onUpdate(formControl)">
+      <div class="form-group" >
+        <label for="event-name">Name</label>
+        <input class="form-control" minlength="8"  required [(ngModel)]="event.name" type="text" name="name">
+        <div
+        [hidden]="formControl.controls['name']?.valid"
+         class="error-message">
+          Name is incorrect
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="event-date">Date</label>
+        <input class="form-control" required [(ngModel)]="event.date" type="text" name="date">
+        <div
+        [hidden]="formControl.controls['date']?.valid"
+        class="error-message">
+          Date is incorrect
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="event-time">Time</label>
+        <input class="form-control" required [(ngModel)]="event.time" type="text" name="time">
+        <div
+        [hidden]="formControl.controls['time']?.valid"
+        class="error-message">
+         Time is incorrect
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="event-location">Location</label>
+        <input class="form-control" required [(ngModel)]="event.location" type="text" name="location">
+        <div
+        [hidden]="formControl.controls['location']?.valid"
+        class="error-message">
+          Location is incorrect
+        </div>
+      </div>
+      <button [disabled]="formControl.valid === false" class="btn btn-primary btn-block"><i class="fa fa-save"></i>Save</button>
+    </form>
+  </div>
+</div>
